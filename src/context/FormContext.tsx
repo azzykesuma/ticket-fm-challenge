@@ -1,6 +1,6 @@
   /* eslint-disable react-hooks/exhaustive-deps */
   /* eslint-disable react-refresh/only-export-components */
-  import { createContext, PropsWithChildren, useEffect, useMemo, useState } from 'react';
+  import { createContext, PropsWithChildren, useMemo, useState } from 'react';
 
   type FormData = {
     avatarSrc: string;
