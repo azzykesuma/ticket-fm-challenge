@@ -1,7 +1,7 @@
 import upload from "@/lib/assets/images/icon-upload.svg";
 import { CircleAlert } from "lucide-react";
 import { motion as m } from "motion/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { IFormValues } from "Types";
 
@@ -14,9 +14,6 @@ interface IUploadProps {
 const UploadImage = ({ setValue, setError, error }: IUploadProps) => {
   const inputUpload = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  useEffect(() => {
-    console.log('error:', error);
-  }, [error])
 
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,12 +53,23 @@ const UploadImage = ({ setValue, setError, error }: IUploadProps) => {
     inputUpload.current?.click();
   };
 
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      handleFileChange({ target: { files: [file] } } as unknown as React.ChangeEvent<HTMLInputElement>);
+    }
+  }
+
   return (
     <>
       <label htmlFor="avatar" className="text-white">
         Upload Avatar
       </label>
-      <div className="group flex flex-col items-center justify-center gap-2 border-[1px] border-dashed rounded-lg p-4 mt-2 bg-opacity-80 hover:bg-neutral-800 transition-all">
+      <div className="group flex flex-col items-center justify-center gap-2 border-[1px] border-dashed rounded-lg p-4 mt-2 bg-opacity-80 hover:bg-neutral-800 transition-all"
+      onDrop={(e) => handleDrop(e)}
+      onDragOver={(e) => e.preventDefault()}
+      >
         {previewImage ? (
           <>
             <img
@@ -102,9 +110,9 @@ const UploadImage = ({ setValue, setError, error }: IUploadProps) => {
         <input
           ref={inputUpload}
           type="file"
-          className="hidden"
           onChange={handleFileChange}
           accept="image/*"
+          className="hidden"
         />
         <p className="text-neutral-500 group-hover:text-white">
           Drag and drop or click to upload

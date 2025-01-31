@@ -31,7 +31,6 @@ const Form = ({
 
   const onSubmit = (data: IFormValues) => {
     if(!data.avatarSrc) {
-      console.log('here!')
       setError("Please upload an image.");
       return;
     }

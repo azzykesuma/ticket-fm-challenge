@@ -33,10 +33,6 @@
 
     const contextValue = useMemo(() => ({ formData, updateFormData }), [formData]);
 
-    useEffect(() => {
-      console.log('formData updated:', formData);
-    }, [formData])
-
     return (
       <FormContext.Provider value={contextValue}>
         {children}
